@@ -24,6 +24,15 @@ static const char *colors[][3]      = {
 
 static int attachdirection = 3;
 
+/* Allow window selection and movement to operate in a cyclic behavior, i.e.
+ * when the master is selected and you try to select it's parent, select the
+ * last window in the stack. Uncomment to enable.
+ */
+//#define ALLOW_WINDOW_CYCLIC_BEHAVIOR
+
+/* Same as above but with monitors */
+//#define ALLOW_MONITOR_CYCLIC_BEHAVIOR
+
 /* TODO make the screeCount dynamic so that DWM doesn't have to be recompiled
  * every time it's executed on a different system.
  */
@@ -105,6 +114,11 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Down,   focusstack,     {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_Up,     movestack,      {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_Down,   movestack,      {.i = +1 } },
+
+	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
+	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
+	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 
 	{ MODKEY,                       XK_Left,   setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_Right,  setmfact,       {.f = +0.05} },

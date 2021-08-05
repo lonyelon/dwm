@@ -5,19 +5,22 @@ movestack(const Arg *arg) {
 	if(arg->i > 0) {
 		/* find the client after selmon->sel */
 		for(c = selmon->sel->next; c && (!ISVISIBLE(c) || c->isfloating); c = c->next);
+#ifdef ALLOW_WINDOW_CYCLIC_BEHAVIOR
 		if(!c)
 			for(c = selmon->clients; c && (!ISVISIBLE(c) || c->isfloating); c = c->next);
-
+#endif
 	}
 	else {
 		/* find the client before selmon->sel */
 		for(i = selmon->clients; i != selmon->sel; i = i->next)
 			if(ISVISIBLE(i) && !i->isfloating)
 				c = i;
-		if(!c)
+#ifdef ALLOW_WINDOW_CYCLIC_BEHAVIOR
+		if(!c && allowWindowCiclicBehavior)
 			for(; i; i = i->next)
 				if(ISVISIBLE(i) && !i->isfloating)
 					c = i;
+#endif
 	}
 	/* find the client before selmon->sel and c */
 	for(i = selmon->clients; i && (!p || !pc); i = i->next) {

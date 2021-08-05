@@ -183,7 +183,6 @@ static long getstate(Window w);
 static int gettextprop(Window w, Atom atom, char *text, unsigned int size);
 static void grabbuttons(Client *c, int focused);
 static void grabkeys(void);
-static void incnmaster(const Arg *arg);
 static void keypress(XEvent *e);
 static void killclient(const Arg *arg);
 static void manage(Window w, XWindowAttributes *wa);
@@ -220,7 +219,6 @@ static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
 static void tagnthmon(const Arg *arg);
 static void tile(Monitor *);
-static void togglebar(const Arg *arg);
 static void togglefloating(const Arg *arg);
 static void toggletag(const Arg *arg);
 static void toggleview(const Arg *arg);
@@ -915,6 +913,12 @@ focusmon(const Arg *arg)
 		return;
 	if ((m = dirtomon(arg->i)) == selmon)
 		return;
+#ifndef ALLOW_MONITOR_CYCLIC_BEHAVIOR
+	if (arg->i > 0 && selmon->num > m->num)
+		return;
+	if (arg->i < 0 && selmon->num < m->num)
+		return;
+#endif
 	unfocus(selmon->sel, 0);
 	selmon = m;
 	focus(NULL);
@@ -946,16 +950,20 @@ focusstack(const Arg *arg)
 		return;
 	if (arg->i > 0) {
 		for (c = selmon->sel->next; c && !ISVISIBLE(c); c = c->next);
+#ifdef ALLOW_WINDOW_CYCLIC_BEHAVIOR
 		if (!c)
 			for (c = selmon->clients; c && !ISVISIBLE(c); c = c->next);
+#endif
 	} else {
 		for (i = selmon->clients; i != selmon->sel; i = i->next)
 			if (ISVISIBLE(i))
 				c = i;
+#ifdef ALLOW_WINDOW_CYCLIC_BEHAVIOR
 		if (!c)
 			for (; i; i = i->next)
 				if (ISVISIBLE(i))
 					c = i;
+#endif
 	}
 	if (c) {
 		focus(c);
@@ -1069,13 +1077,6 @@ grabkeys(void)
 					XGrabKey(dpy, code, keys[i].mod | modifiers[j], root,
 						True, GrabModeAsync, GrabModeAsync);
 	}
-}
-
-void
-incnmaster(const Arg *arg)
-{
-	selmon->nmaster = MAX(selmon->nmaster + arg->i, 0);
-	arrange(selmon);
 }
 
 #ifdef XINERAMA
@@ -1835,9 +1836,19 @@ tag(const Arg *arg)
 void
 tagmon(const Arg *arg)
 {
+	Monitor *m;
+
 	if (!selmon->sel || !mons->next)
 		return;
-	sendmon(selmon->sel, dirtomon(arg->i));
+
+	m = dirtomon(arg->i);
+#ifndef ALLOW_MONITOR_CYCLIC_BEHAVIOR
+	if (arg->i > 0 && selmon->num > m->num)
+		return;
+	if (arg->i < 0 && selmon->num < m->num)
+		return;
+#endif
+	sendmon(selmon->sel, m);
 }
 
 void
@@ -1874,15 +1885,6 @@ tile(Monitor *m)
 			if (ty + HEIGHT(c) < m->wh)
 				ty += HEIGHT(c);
 		}
-}
-
-void
-togglebar(const Arg *arg)
-{
-	selmon->showbar = !selmon->showbar;
-	updatebarpos(selmon);
-	XMoveResizeWindow(dpy, selmon->barwin, selmon->wx, selmon->by, selmon->ww, bh);
-	arrange(selmon);
 }
 
 void
