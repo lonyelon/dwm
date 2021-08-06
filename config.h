@@ -54,15 +54,10 @@ static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
 static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
 
-#include "fibonacci.c"
-#include "tcl.c"
+#include "dwindle.c"
 static const Layout layouts[] = {
 	/* symbol     arrange function */
  	{ "[\\]",     dwindle },
- 	{ "[@]",      spiral },
-	{ "[]=",      tile },    /* first entry is default */
-	{ "[M]",      monocle },
-	{ "|||",      tcl },
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 };
 
@@ -103,11 +98,6 @@ static Key keys[] = {
 
 	/* Alternating layouts */
 	{ MODKEY|ControlMask|ShiftMask, XK_d,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY|ControlMask|ShiftMask, XK_f,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY|ControlMask|ShiftMask, XK_s,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY|ControlMask|ShiftMask, XK_t,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY|ControlMask|ShiftMask, XK_m,      setlayout,      {.v = &layouts[3]} },
-	{ MODKEY|ControlMask|ShiftMask, XK_3,      setlayout,      {.v = &layouts[4]} },
 
 //  { MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_Up,     focusstack,     {.i = -1 } },

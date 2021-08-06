@@ -1,5 +1,5 @@
 void
-fibonacci(Monitor *mon, int s) {
+dwindle(Monitor *mon) {
 	unsigned int i, n, nx, ny, nw, nh;
 	Client *c;
 
@@ -20,26 +20,16 @@ fibonacci(Monitor *mon, int s) {
 					nh /= 2;
 				else
 					nw /= 2;
-				if((i % 4) == 2 && !s)
-					nx += nw;
-				else if((i % 4) == 3 && !s)
-					ny += nh;
 			}
 			if((i % 4) == 0) {
-				if(s)
-					ny += nh;
-				else
-					ny -= nh;
+				ny += nh;
 			}
 			else if((i % 4) == 1)
 				nx += nw;
 			else if((i % 4) == 2)
 				ny += nh;
 			else if((i % 4) == 3) {
-				if(s)
-					nx += nw;
-				else
-					nx -= nw;
+				nx += nw;
 			}
 			if(i == 0)
 			{
@@ -53,14 +43,4 @@ fibonacci(Monitor *mon, int s) {
 		}
 		resize(c, nx, ny, nw - 2 * c->bw, nh - 2 * c->bw, False);
 	}
-}
-
-void
-dwindle(Monitor *mon) {
-	fibonacci(mon, 1);
-}
-
-void
-spiral(Monitor *mon) {
-	fibonacci(mon, 0);
 }
