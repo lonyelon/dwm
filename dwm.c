@@ -950,24 +950,30 @@ focusstack(const Arg *arg)
 {
 	Client *c = NULL, *i;
 
-	if (!selmon->sel || (selmon->sel->isfullscreen && lockfullscreen))
+	if (!selmon->sel) {
+#ifndef MONS_SHARE_STACK
 		return;
-	if (arg->i > 0) {
-		for (c = selmon->sel->next; c && !ISVISIBLE(c); c = c->next);
-#ifdef WINDOW_CYCLIC_BEHAVIOR
-		if (!c)
-			for (c = selmon->clients; c && !ISVISIBLE(c); c = c->next);
 #endif
 	} else {
-		for (i = selmon->clients; i != selmon->sel; i = i->next)
-			if (ISVISIBLE(i))
-				c = i;
+		if (selmon->sel->isfullscreen && lockfullscreen)
+			return;
+		if (arg->i > 0) {
+			for (c = selmon->sel->next; c && !ISVISIBLE(c); c = c->next);
 #ifdef WINDOW_CYCLIC_BEHAVIOR
-		if (!c)
-			for (; i; i = i->next)
+			if (!c)
+				for (c = selmon->clients; c && !ISVISIBLE(c); c = c->next);
+#endif
+		} else {
+			for (i = selmon->clients; i != selmon->sel; i = i->next)
 				if (ISVISIBLE(i))
 					c = i;
+#ifdef WINDOW_CYCLIC_BEHAVIOR
+			if (!c)
+				for (; i; i = i->next)
+					if (ISVISIBLE(i))
+						c = i;
 #endif
+		}
 	}
 	if (c) {
 		focus(c);
@@ -1597,31 +1603,20 @@ scan(void)
 void
 sendmon(Client *c, Monitor *m)
 {
+	Monitor *tmpm;
+
 	if (c->mon == m)
 		return;
 	unfocus(c, 1);
 	detach(c);
 	detachstack(c);
+	tmpm = c->mon;
 	c->mon = m;
 	c->tags = m->tagset[m->seltags]; /* assign tags of target monitor */
-	switch(attachdirection){
-		case 1:
-			attachabove(c);
-			break;
-		case 2:
-			attachaside(c);
-			break;
-		case 3:
-			attachbelow(c);
-			break;
-		case 4:
-			attachbottom(c);
-			break;
-		case 5:
-			attachtop(c);
-			break;
-		default:
-			attach(c);
+	if (tmpm->mx > c->mon->mx) {
+		attachbelow(c);
+	} else {
+		attachabove(c);
 	}
 	attachstack(c);
 	focus(NULL);
