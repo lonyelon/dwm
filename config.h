@@ -28,10 +28,15 @@ static int attachdirection = 3;
  * when the master is selected and you try to select it's parent, select the
  * last window in the stack. Uncomment to enable.
  */
-//#define ALLOW_WINDOW_CYCLIC_BEHAVIOR
+//#define WINDOW_CYCLIC_BEHAVIOR
 
 /* Same as above but with monitors */
-//#define ALLOW_MONITOR_CYCLIC_BEHAVIOR
+//#define MONITOR_CYCLIC_BEHAVIOR
+
+/* If defined, windows will move between monitors like if they shared a single
+ * stack.
+ */
+#define MONS_SHARE_STACK
 
 /* TODO make the screeCount dynamic so that DWM doesn't have to be recompiled
  * every time it's executed on a different system.
@@ -83,7 +88,6 @@ static const char *newsboatCmd[] = { "st", "-c", "float", "-g", "150x50", "-e", 
 /* Personal audio hack, you should probably remove it */
 static const char *pactlCmd[] = { "pactl", "set-card-profile", "alsa_card.pci-0000_08_00.1", "output:hdmi-stereo-extra4", NULL };
 
-#include "movestack.c"
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },

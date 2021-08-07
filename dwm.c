@@ -177,6 +177,7 @@ static void focusin(XEvent *e);
 static void focusmon(const Arg *arg);
 static void focusnthmon(const Arg *arg);
 static void focusstack(const Arg *arg);
+static void movestack(const Arg *arg);
 static Atom getatomprop(Client *c, Atom prop);
 static int getrootptr(int *x, int *y);
 static long getstate(Window w);
@@ -907,7 +908,7 @@ focusmon(const Arg *arg)
 		return;
 	if ((m = dirtomon(arg->i)) == selmon)
 		return;
-#ifndef ALLOW_MONITOR_CYCLIC_BEHAVIOR
+#ifndef MONITOR_CYCLIC_BEHAVIOR
 	if (arg->i > 0 && selmon->num > m->num)
 		return;
 	if (arg->i < 0 && selmon->num < m->num)
@@ -918,6 +919,15 @@ focusmon(const Arg *arg)
 	focus(NULL);
 	if (selmon->sel)
 		XWarpPointer(dpy, None, selmon->sel->win, 0, 0, 0, 0, selmon->sel->w/2, selmon->sel->h/2);
+	else {
+		/* TODO Make this beautiful, this right now is ugly code since I set
+		 * the position of the mouse without a reference destination window by
+		 * moving it 1M pixels to the top right and then back to it's correct
+		 * position.
+		 */
+		XWarpPointer(dpy, None, None, 0, 0, 0, 0, -1000000, -1000000);
+		XWarpPointer(dpy, None, None, 0, 0, 0, 0, selmon->mx + selmon->mw/2, selmon->my + selmon->mh/2);
+	}
 }
 
 void
@@ -944,7 +954,7 @@ focusstack(const Arg *arg)
 		return;
 	if (arg->i > 0) {
 		for (c = selmon->sel->next; c && !ISVISIBLE(c); c = c->next);
-#ifdef ALLOW_WINDOW_CYCLIC_BEHAVIOR
+#ifdef WINDOW_CYCLIC_BEHAVIOR
 		if (!c)
 			for (c = selmon->clients; c && !ISVISIBLE(c); c = c->next);
 #endif
@@ -952,7 +962,7 @@ focusstack(const Arg *arg)
 		for (i = selmon->clients; i != selmon->sel; i = i->next)
 			if (ISVISIBLE(i))
 				c = i;
-#ifdef ALLOW_WINDOW_CYCLIC_BEHAVIOR
+#ifdef WINDOW_CYCLIC_BEHAVIOR
 		if (!c)
 			for (; i; i = i->next)
 				if (ISVISIBLE(i))
@@ -962,6 +972,69 @@ focusstack(const Arg *arg)
 	if (c) {
 		focus(c);
 		restack(selmon);
+	} else {
+#ifdef MONS_SHARE_STACK
+		focusmon(arg);
+#endif
+	}
+}
+
+void
+movestack(const Arg *arg) {
+	Client *c = NULL, *p = NULL, *pc = NULL, *i;
+
+	if(arg->i > 0) {
+		/* find the client after selmon->sel */
+		for(c = selmon->sel->next; c && (!ISVISIBLE(c) || c->isfloating); c = c->next);
+#ifdef WINDOW_CYCLIC_BEHAVIOR
+		if(!c)
+			for(c = selmon->clients; c && (!ISVISIBLE(c) || c->isfloating); c = c->next);
+#endif
+	}
+	else {
+		/* find the client before selmon->sel */
+		for(i = selmon->clients; i != selmon->sel; i = i->next)
+			if(ISVISIBLE(i) && !i->isfloating)
+				c = i;
+#ifdef WINDOW_CYCLIC_BEHAVIOR
+		if(!c && allowWindowCiclicBehavior)
+			for(; i; i = i->next)
+				if(ISVISIBLE(i) && !i->isfloating)
+					c = i;
+#endif
+	}
+	/* find the client before selmon->sel and c */
+	for(i = selmon->clients; i && (!p || !pc); i = i->next) {
+		if(i->next == selmon->sel)
+			p = i;
+		if(i->next == c)
+			pc = i;
+	}
+
+	/* swap c and selmon->sel selmon->clients in the selmon->clients list */
+	if (c) {
+		if (c != selmon->sel) {
+			Client *temp = selmon->sel->next==c?selmon->sel:selmon->sel->next;
+			selmon->sel->next = c->next==selmon->sel?c:c->next;
+			c->next = temp;
+
+			if(p && p != c)
+				p->next = c;
+			if(pc && pc != selmon->sel)
+				pc->next = selmon->sel;
+
+			if(selmon->sel == selmon->clients)
+				selmon->clients = c;
+			else if(c == selmon->clients)
+				selmon->clients = selmon->sel;
+
+			arrange(selmon);
+		}
+	} else {
+#ifdef MONS_SHARE_STACK
+		tagmon(arg);
+		focusmon(arg);
+#endif
 	}
 }
 
@@ -1803,7 +1876,7 @@ tagmon(const Arg *arg)
 		return;
 
 	m = dirtomon(arg->i);
-#ifndef ALLOW_MONITOR_CYCLIC_BEHAVIOR
+#ifndef MONITOR_CYCLIC_BEHAVIOR
 	if (arg->i > 0 && selmon->num > m->num)
 		return;
 	if (arg->i < 0 && selmon->num < m->num)
