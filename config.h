@@ -87,12 +87,12 @@ static const Layout layouts[] = {
 ////////////////////////////////////////////////////////////////////////////////
 
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[]      = { "dmenu_run",   "-l",              "30",      "-m",       dmenumon, "-fn", dmenufont,  "-nb", col_bg, "-nf", col_fg, "-sb", col_bg_sel, "-sf", col_fg_sel, NULL };
+static const char *dmenucmd[]      = { "dmenu_run",   "-l",              "30",      "-m",       dmenumon,   "-fn", dmenufont,  "-nb", col_bg, "-nf", col_fg, "-sb", col_bg_sel, "-sf", col_fg_sel, NULL };
 static const char *termcmd[]       = { "st",          NULL };
 static const char *quteCmd[]       = { "qutebrowser", NULL };
-static const char *neomuttCmd[]    = { "st",          "-c",              "float",   "-g",       "150x50", "-e",  "neomutt",  NULL };
-static const char *mailsyncCmd[]   = { "st",          "-c",              "float",   "-g",       "80x50",  "-e",  "mailsync", NULL };
-static const char *newsboatCmd[]   = { "st",          "-c",              "float",   "-g",       "150x50", "-e",  "newsboat", NULL };
+static const char *neomuttCmd[]    = { "st",          "-g",              "150x50",  "-e",       "neomutt",  NULL };
+static const char *mailsyncCmd[]   = { "st",          "-c",              "float",   "-g",       "80x50",    "-e",  "mailsync", NULL };
+static const char *newsboatCmd[]   = { "st",          "-g",              "150x50",  "-e",       "newsboat", NULL };
 static const char *muteSinkCmd[]   = { "pactl",       "set-sink-mute",   defSink,   "toggle",   NULL };
 static const char *muteSourceCmd[] = { "pactl",       "set-source-mute", defSource, "toggle",   NULL };
 static const char *volUpCmd[]      = { "pactl",       "set-sink-volume", defSink,   sinkVolInc, NULL };
