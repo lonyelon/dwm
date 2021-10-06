@@ -47,6 +47,8 @@ exec dwm
 
 The configuration of DWM is done by creating a custom `config.h` and (re)compiling the source code.
 
+In the `patches` directory some interesting default configs are included.
+
 ## Authors
 
 * Sergio Miguéns Iglesias <[sergio@lony.xyz](mailto:dev@suckless.org)>
