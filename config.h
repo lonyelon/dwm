@@ -46,10 +46,10 @@ static const int screenCount = 2;
 /*
  * XF86 Keys. very useful for laptops.
  */
-#define defSink    "46"  /* Default alsa sink */
+#define defSink    "43"  /* Default alsa sink */
 #define sinkVolInc "+5%" /* Percentage of volume increased for each key press */ 
 #define sinkVolDec "-5%" /* Percentage of volume decreased for each key press */
-#define defSource  "47"  /* Default alsa source */
+#define defSource  "42"  /* Default alsa source */
 #define brnInc     "5"   /* Brightness increment and decrement amount */
 
 /* tagging */
@@ -90,6 +90,8 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[]      = { "dmenu_run",   "-l",              "30",      "-m",       dmenumon,   "-fn", dmenufont,  "-nb", col_bg, "-nf", col_fg, "-sb", col_bg_sel, "-sf", col_fg_sel, NULL };
 static const char *termcmd[]       = { "st",          NULL };
 static const char *quteCmd[]       = { "qutebrowser", NULL };
+static const char *chromiumCmd[]   = { "chromium",    "https://discord.com/login",  NULL };
+static const char *emacsCmd[]      = { "emacs",       NULL };
 static const char *neomuttCmd[]    = { "st",          "-g",              "150x50",  "-e",       "neomutt",  NULL };
 static const char *mailsyncCmd[]   = { "st",          "-c",              "float",   "-g",       "80x50",    "-e",  "mailsync", NULL };
 static const char *newsboatCmd[]   = { "st",          "-g",              "150x50",  "-e",       "newsboat", NULL };
@@ -110,6 +112,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_d,                     spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return,                spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,                     spawn,          {.v = quteCmd } },
+	{ MODKEY|ShiftMask,             XK_b,                     spawn,          {.v = chromiumCmd } },
+	{ MODKEY,                       XK_e,                     spawn,          {.v = emacsCmd } },
 	{ MODKEY,                       XK_m,                     spawn,          {.v = neomuttCmd } },
 	{ MODKEY|ShiftMask,             XK_m,                     spawn,          {.v = mailsyncCmd } },
 	{ MODKEY,                       XK_n,                     spawn,          {.v = newsboatCmd } },
@@ -143,9 +147,9 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Right,                 setmfact,       {.f = +0.05} },
 	{ MODKEY|ShiftMask,             XK_space,                 togglefloating, {0} },
 
-	TAGKEYS(                        XK_1,                                     0)
-	TAGKEYS(                        XK_2,                                     1)
-	TAGKEYS(                        XK_3,                                     2)
+	TAGKEYS(                        XK_1,                      0)
+	TAGKEYS(                        XK_2,                      1)
+	TAGKEYS(                        XK_3,                      2)
 	TAGKEYS(                        XK_4,                      3)
 	TAGKEYS(                        XK_5,                      4)
 	TAGKEYS(                        XK_6,                      5)
