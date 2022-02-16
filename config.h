@@ -78,10 +78,12 @@ static const Layout layouts[] = {
 /* key definitions */
 #define MODKEY Mod1Mask
 #define TAGKEYS(KEY,TAG) \
-	{ MODKEY,           KEY, focusnthmon, {.i  = TAG*screenCount/8} }, \
+	{ MODKEY,           KEY, focusnthmon, {.i  = TAG*screenCount/8} },                              \
 	{ MODKEY,           KEY, view,        {.ui = 1 << (TAG - 8/screenCount*(TAG*screenCount/8))} }, \
-	{ MODKEY|ShiftMask, KEY, tagnthmon,   {.i  = TAG*screenCount/8} }, \
+	{ MODKEY|ShiftMask, KEY, tagnthmon,   {.i  = TAG*screenCount/8} },                              \
+	{ MODKEY|ShiftMask, KEY, focusnthmon, {.i  = TAG*screenCount/8} },                              \
 	{ MODKEY|ShiftMask, KEY, tag,         {.ui = 1 << (TAG - 8/screenCount*(TAG*screenCount/8))} }, \
+	{ MODKEY|ShiftMask, KEY, view,        {.ui = 1 << (TAG - 8/screenCount*(TAG*screenCount/8))} }, \
 
 //                                                                      COMMANDS
 ////////////////////////////////////////////////////////////////////////////////
@@ -91,7 +93,7 @@ static const char *dmenucmd[]      = { "dmenu_run",   "-l",              "30",  
 static const char *termcmd[]       = { "st",          NULL };
 static const char *quteCmd[]       = { "qutebrowser", NULL };
 static const char *chromiumCmd[]   = { "chromium",    "https://discord.com/login",  NULL };
-static const char *emacsCmd[]      = { "emacs",       NULL };
+static const char *emacsCmd[]      = { "emacsclient", "-c",              "-a",      "emacs",    NULL };
 static const char *neomuttCmd[]    = { "st",          "-g",              "150x50",  "-e",       "neomutt",  NULL };
 static const char *mailsyncCmd[]   = { "st",          "-c",              "float",   "-g",       "80x50",    "-e",  "mailsync", NULL };
 static const char *newsboatCmd[]   = { "st",          "-g",              "150x50",  "-e",       "newsboat", NULL };
