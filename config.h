@@ -76,7 +76,7 @@ static const Layout layouts[] = {
 };
 
 /* key definitions */
-#define MODKEY Mod1Mask
+#define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,           KEY, focusnthmon, {.i  = TAG*screenCount/8} },                              \
 	{ MODKEY,           KEY, view,        {.ui = 1 << (TAG - 8/screenCount*(TAG*screenCount/8))} }, \
@@ -103,6 +103,7 @@ static const char *volUpCmd[]      = { "pactl",       "set-sink-volume", defSink
 static const char *volDownCmd[]    = { "pactl",       "set-sink-volume", defSink,   sinkVolDec, NULL };
 static const char *brnUpCmd[]      = { "xbacklight",  "-inc",            brnInc,    NULL };
 static const char *brnDownCmd[]    = { "xbacklight",  "-dec",            brnInc,    NULL };
+static const char *keyMapCmd[]     = { "~/.local/bin/chkeymap",    NULL };
 
 /* Personal audio hack, you should probably remove it */
 static const char *pactlCmd[] = { "pactl", "set-card-profile", "alsa_card.pci-0000_08_00.1", "output:hdmi-stereo-extra4", NULL };
@@ -120,6 +121,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_m,                     spawn,          {.v = mailsyncCmd } },
 	{ MODKEY,                       XK_n,                     spawn,          {.v = newsboatCmd } },
 	{ MODKEY|ShiftMask,             XK_a,                     spawn,          {.v = pactlCmd } },
+	{ MODKEY|ShiftMask,             XK_k,                     spawn,          {.v = keyMapCmd } },
 
 	{ MODKEY|ShiftMask,             XK_q,                     killclient,     {0} },
 
