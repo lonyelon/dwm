@@ -106,7 +106,7 @@ static const char *brnDownCmd[]    = { "xbacklight",  "-dec",            brnInc,
 static const char *keyMapCmd[]     = { "~/.local/bin/chkeymap",    NULL };
 
 /* Personal audio hack, you should probably remove it */
-static const char *pactlCmd[] = { "pactl", "set-card-profile", "alsa_card.pci-0000_08_00.1", "output:hdmi-stereo-extra4", NULL };
+static const char *pactlCmd[] = { "pactl", "set-card-profile", "alsa_card.pci-0000_08_00.1", "output:hdmi-stereo-extra2", NULL };
 
 #include <X11/XF86keysym.h>
 
