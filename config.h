@@ -103,7 +103,7 @@ static const char *volUpCmd[]      = { "pactl",       "set-sink-volume", defSink
 static const char *volDownCmd[]    = { "pactl",       "set-sink-volume", defSink,   sinkVolDec, NULL };
 static const char *brnUpCmd[]      = { "xbacklight",  "-inc",            brnInc,    NULL };
 static const char *brnDownCmd[]    = { "xbacklight",  "-dec",            brnInc,    NULL };
-static const char *keyMapCmd[]     = { "~/.local/bin/chkeymap",    NULL };
+static const char *keyMapCmd[]     = { "~/sh/switch-keyboard-layout",    NULL };
 
 /* Personal audio hack, you should probably remove it */
 static const char *pactlCmd[] = { "pactl", "set-card-profile", "alsa_card.pci-0000_08_00.1", "output:hdmi-stereo-extra2", NULL };
