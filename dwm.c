@@ -241,7 +241,7 @@ static int xerrorstart(Display *dpy, XErrorEvent *ee);
 
 /* variables */
 static const char broken[] = "broken";
-static char stext[1024];
+static char stext[2048];
 static int screen;
 static int sw, sh;           /* X display screen geometry width, height */
 static int bh, blw = 0;      /* bar geometry */
