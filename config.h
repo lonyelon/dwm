@@ -54,7 +54,7 @@ static const int screenCount = 2;
 
 /* tagging */
 /* TODO Make tags dynamic. */
-static char *tags[] = { "1", "2", "3", "4" };
+static char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
 
 static const Rule rules[] = {
