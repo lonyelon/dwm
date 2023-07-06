@@ -38,11 +38,6 @@ static int attachdirection = 3;
  */
 #define MONS_SHARE_STACK
 
-/* TODO make the screeCount dynamic so that DWM doesn't have to be recompiled
- * every time it's executed on a different system.
- */
-static const int screenCount = 2;
-
 /*
  * XF86 Keys. very useful for laptops.
  */
@@ -59,7 +54,7 @@ static char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
 static const Rule rules[] = {
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "float",    NULL,       NULL,       1 << 8,       1,           -1 },
+	{ "float",    NULL,       NULL,       0,            1,           0 },
 };
 
 /* layout(s) */
@@ -78,12 +73,9 @@ static const Layout layouts[] = {
 /* key definitions */
 #define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
-	{ MODKEY,           KEY, focusnthmon, {.i  = TAG*screenCount/8} },                              \
-	{ MODKEY,           KEY, view,        {.ui = 1 << (TAG - 8/screenCount*(TAG*screenCount/8))} }, \
-	{ MODKEY|ShiftMask, KEY, tagnthmon,   {.i  = TAG*screenCount/8} },                              \
-	{ MODKEY|ShiftMask, KEY, focusnthmon, {.i  = TAG*screenCount/8} },                              \
-	{ MODKEY|ShiftMask, KEY, tag,         {.ui = 1 << (TAG - 8/screenCount*(TAG*screenCount/8))} }, \
-	{ MODKEY|ShiftMask, KEY, view,        {.ui = 1 << (TAG - 8/screenCount*(TAG*screenCount/8))} }, \
+	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
+	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
+
 
 //                                                                      COMMANDS
 ////////////////////////////////////////////////////////////////////////////////
@@ -94,7 +86,7 @@ static const char *quteCmd[]       = { "qutebrowser", NULL };
 static const char *dmenucmd[]      = { "dmenu_run",   "-l",              "30",      "-m",       dmenumon,   "-fn", dmenufont,  "-nb", col_bg, "-nf", col_fg, "-sb", col_bg_sel, "-sf", col_fg_sel, NULL };
 static const char *emacsCmd[]      = { "emacsclient", "-c",              "-a",      "emacs",    NULL };
 static const char *neomuttCmd[]    = { "st",          "-g",              "150x50",  "-e",       "neomutt",  NULL };
-static const char *mailsyncCmd[]   = { "st",          "-c",              "float",   "-g",       "80x50",    "-e",  "mbsync",   "-a",  NULL };
+static const char *mailsyncCmd[]   = { "st",          "-c",              "float",   "-g",       "80x50",    "-e",  "mbsync -a",  NULL };
 static const char *newsboatCmd[]   = { "st",          "-g",              "150x50",  "-e",       "newsboat", NULL };
 static const char *muteSinkCmd[]   = { "pactl",       "set-sink-mute",   defSink,   "toggle",   NULL };
 static const char *muteSourceCmd[] = { "pactl",       "set-source-mute", defSource, "toggle",   NULL };
