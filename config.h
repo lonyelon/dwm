@@ -89,13 +89,12 @@ static const Layout layouts[] = {
 ////////////////////////////////////////////////////////////////////////////////
 
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[]      = { "dmenu_run",   "-l",              "30",      "-m",       dmenumon,   "-fn", dmenufont,  "-nb", col_bg, "-nf", col_fg, "-sb", col_bg_sel, "-sf", col_fg_sel, NULL };
 static const char *termcmd[]       = { "st",          NULL };
 static const char *quteCmd[]       = { "qutebrowser", NULL };
-static const char *chromiumCmd[]   = { "chromium",    "https://discord.com/login",  NULL };
+static const char *dmenucmd[]      = { "dmenu_run",   "-l",              "30",      "-m",       dmenumon,   "-fn", dmenufont,  "-nb", col_bg, "-nf", col_fg, "-sb", col_bg_sel, "-sf", col_fg_sel, NULL };
 static const char *emacsCmd[]      = { "emacsclient", "-c",              "-a",      "emacs",    NULL };
 static const char *neomuttCmd[]    = { "st",          "-g",              "150x50",  "-e",       "neomutt",  NULL };
-static const char *mailsyncCmd[]   = { "st",          "-c",              "float",   "-g",       "80x50",    "-e",  "mbsync", "-a", NULL };
+static const char *mailsyncCmd[]   = { "st",          "-c",              "float",   "-g",       "80x50",    "-e",  "mbsync",   "-a",  NULL };
 static const char *newsboatCmd[]   = { "st",          "-g",              "150x50",  "-e",       "newsboat", NULL };
 static const char *muteSinkCmd[]   = { "pactl",       "set-sink-mute",   defSink,   "toggle",   NULL };
 static const char *muteSourceCmd[] = { "pactl",       "set-source-mute", defSource, "toggle",   NULL };
@@ -115,7 +114,6 @@ static Key keys[] = {
 	{ MODKEY,                       XK_d,                     spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return,                spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,                     spawn,          {.v = quteCmd } },
-	{ MODKEY|ShiftMask,             XK_b,                     spawn,          {.v = chromiumCmd } },
 	{ MODKEY,                       XK_e,                     spawn,          {.v = emacsCmd } },
 	{ MODKEY,                       XK_m,                     spawn,          {.v = neomuttCmd } },
 	{ MODKEY|ShiftMask,             XK_m,                     spawn,          {.v = mailsyncCmd } },
