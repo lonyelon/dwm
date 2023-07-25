@@ -12,11 +12,11 @@ static const char dmenufont[]       = "SourceCodePro:size=10";
 
 /* Colors */
 static const char col_fg[]          = "#fbf1c7";
-static const char col_fg_sel[]      = "#1d2021";
+static const char col_fg_sel[]      = "#fbf1c7";
 static const char col_bg[]          = "#1d2021";
-static const char col_bg_sel[]      = "#d65d0e";
+static const char col_bg_sel[]      = "#458588";
 static const char col_br[]          = "#282828";
-static const char col_br_sel[]      = "#d65d0e";
+static const char col_br_sel[]      = "#458588";
 static const char *colors[][3]      = {
 	[SchemeNorm] = { col_fg,     col_bg,     col_br },
 	[SchemeSel]  = { col_fg_sel, col_bg_sel, col_br_sel  },
