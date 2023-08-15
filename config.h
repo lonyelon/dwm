@@ -87,7 +87,7 @@ static const char *dmenucmd[]      = { "dmenu_run",   "-l",              "30",  
 static const char *emacsCmd[]      = { "emacsclient", "-c",              "-a",      "emacs",    NULL };
 static const char *neomuttCmd[]    = { "st",          "-g",              "150x50",  "-e",       "neomutt",  NULL };
 static const char *mailsyncCmd[]   = { "st",          "-c",              "float",   "-g",       "60x30",    "-e",  "mbsync",   "-a",  NULL };
-static const char *newsboatCmd[]   = { "st",          "-g",              "150x50",  "-e",       "newsboat", NULL };
+static const char *nvimCmd[]       = { "st",          "-e",              "nvim",    NULL };
 static const char *muteSinkCmd[]   = { "pactl",       "set-sink-mute",   defSink,   "toggle",   NULL };
 static const char *muteSourceCmd[] = { "pactl",       "set-source-mute", defSource, "toggle",   NULL };
 static const char *volUpCmd[]      = { "pactl",       "set-sink-volume", defSink,   sinkVolInc, NULL };
@@ -109,7 +109,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_e,                     spawn,          {.v = emacsCmd } },
 	{ MODKEY,                       XK_m,                     spawn,          {.v = neomuttCmd } },
 	{ MODKEY|ShiftMask,             XK_m,                     spawn,          {.v = mailsyncCmd } },
-	{ MODKEY,                       XK_n,                     spawn,          {.v = newsboatCmd } },
+	{ MODKEY,                       XK_n,                     spawn,          {.v = nvimCmd } },
 	{ MODKEY|ShiftMask,             XK_a,                     spawn,          {.v = pactlCmd } },
 	{ MODKEY|ShiftMask,             XK_k,                     spawn,          {.v = keyMapCmd } },
 
