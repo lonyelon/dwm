@@ -123,6 +123,16 @@ static Key keys[] = {
 	TAGKEYS(                        XK_c,                     7)
 	TAGKEYS(                        XK_h,                     8)
 	TAGKEYS(                        XK_l,                     9)
+	TAGKEYS(                        XK_1,                     0)
+	TAGKEYS(                        XK_2,                     1)
+	TAGKEYS(                        XK_3,                     2)
+	TAGKEYS(                        XK_4,                     3)
+	TAGKEYS(                        XK_5,                     4)
+	TAGKEYS(                        XK_6,                     5)
+	TAGKEYS(                        XK_7,                     6)
+	TAGKEYS(                        XK_8,                     7)
+	TAGKEYS(                        XK_9,                     8)
+	TAGKEYS(                        XK_0,                     9)
 };
 
 /* button definitions */
