@@ -1,23 +1,23 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 3;        /* border pixel of windows */
-static const unsigned int snap      = 32;       /* snap pixel */
-static const int showbar            = 1;        /* 0 means no bar */
-static const int topbar             = 0;        /* 0 means bottom bar */
+static const unsigned int borderpx = 3;        /* border pixel of windows */
+static const unsigned int snap     = 32;       /* snap pixel */
+static const int showbar           = 1;        /* 0 means no bar */
+static const int topbar            = 0;        /* 0 means bottom bar */
 
 /* Fonts */
-static const char *fonts[]          = { "SourceCodePro:size=10", "JoyPixels:size=10" };
-static const char dmenufont[]       = "SourceCodePro:size=10";
+static const char *fonts[]         = { "SourceCodePro:size=10", "JoyPixels:size=10" };
+static const char dmenufont[]      = "SourceCodePro:size=10";
 
 /* Colors */
-static const char col_fg[]          = "#fbf1c7";
-static const char col_fg_sel[]      = "#fbf1c7";
-static const char col_bg[]          = "#1d2021";
-static const char col_bg_sel[]      = "#458588";
-static const char col_br[]          = "#282828";
-static const char col_br_sel[]      = "#458588";
-static const char *colors[][3]      = {
+static const char col_fg[]         = "#fbf1c7";
+static const char col_fg_sel[]     = "#fbf1c7";
+static const char col_bg[]         = "#1d2021";
+static const char col_bg_sel[]     = "#458588";
+static const char col_br[]         = "#282828";
+static const char col_br_sel[]     = "#458588";
+static const char *colors[][3]     = {
 	[SchemeNorm] = { col_fg,     col_bg,     col_br },
 	[SchemeSel]  = { col_fg_sel, col_bg_sel, col_br_sel  },
 };
@@ -76,26 +76,30 @@ static const Layout layouts[] = {
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
 
-
 //                                                                      COMMANDS
 ////////////////////////////////////////////////////////////////////////////////
 
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *termcmd[]      = { "st",         NULL };
 static const char *librewolfCmd[] = { "librewolf",  NULL };
-static const char *dmenucmd[]     = { "dmenu_run",  "-l", "30",     "-m", dmenumon,  "-fn", dmenufont,  "-nb", col_bg, "-nf", col_fg, "-sb", col_bg_sel, "-sf", col_fg_sel, NULL };
-static const char *neomuttCmd[]   = { "st",         "-g", "150x50", "-e", "neomutt", NULL };
-static const char *mailsyncCmd[]  = { "st",         "-c", "float",  "-g", "60x30",   "-e",  "mbsync",   "-a",  NULL };
-static const char *nvimCmd[]      = { "st",         "-e", "nvim",   NULL };
+static const char *dmenucmd[]     = {
+	"dmenu_run", "-l", "30", "-m", dmenumon, "-fn", dmenufont,
+	"-nb", col_bg, "-nf", col_fg, "-sb", col_bg_sel, "-sf", col_fg_sel,
+	NULL
+};
+static const char *aercCmd[]      = { "st", "-e", "aerc", NULL };
+static const char *mailsyncCmd[]  = {
+	"st", "-c", "float", "-g", "60x30", "-e", "mbsync", "-a", NULL
+};
+static const char *nvimCmd[]      = { "st", "-e", "nvim", NULL };
 
 #include <X11/XF86keysym.h>
-
 static Key keys[] = {
 	/* modifier                     key                       function        argument */
 	{ MODKEY,                       XK_d,                     spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return,                spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,                     spawn,          {.v = librewolfCmd} },
-	{ MODKEY,                       XK_m,                     spawn,          {.v = neomuttCmd } },
+	{ MODKEY,                       XK_m,                     spawn,          {.v = aercCmd} },
 	{ MODKEY|ShiftMask,             XK_m,                     spawn,          {.v = mailsyncCmd } },
 	{ MODKEY,                       XK_n,                     spawn,          {.v = nvimCmd } },
 
@@ -106,12 +110,12 @@ static Key keys[] = {
 
 	{ MODKEY,                       XK_Up,                    focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_Down,                  focusstack,     {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_Up,                    movestack,      {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_Down,                  movestack,      {.i = +1 } },
+	{ MODKEY|ControlMask,           XK_Up,                    movestack,      {.i = -1 } },
+	{ MODKEY|ControlMask,           XK_Down,                  movestack,      {.i = +1 } },
 
 	{ MODKEY,                       XK_Left,                  setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_Right,                 setmfact,       {.f = +0.05} },
-	{ MODKEY|ShiftMask,             XK_space,                 togglefloating, {0} },
+	{ MODKEY,                       XK_space,                 togglefloating, {0} },
 
 	TAGKEYS(                        XK_comma,                 0)
 	TAGKEYS(                        XK_period,                1)
